@@ -1,5 +1,9 @@
 # Argo CD OTel
 
+Argo CD OTel (OpenTelemetry) integration enables observability for Argo CD by exporting metrics, traces the OpenTelemetry standard. The project is developed as a part of Environment of Services Implementation course (Środowiska udostępniania usług) at AGH University in Kraków at Faculty of Computer Science.
+
+Year: 2024/2025, semester: summer, group 4.
+
 ## Authors
 
 - [Piotr Kuchta](https://github.com/kpiotr6)
@@ -16,4 +20,4 @@ Argo CD is a declarative, GitOps continuous delivery tool for Kubernetes. It fol
 - Argo CD
 - Kubernetes - is an open source system for automating deployment, scaling, and management of containerized applications.
 - Grafana - is a multi-platform open source analytics and interactive visualization web application. When connected to kubernetes allows for monitoring of deployed applications.
-- 
+-
