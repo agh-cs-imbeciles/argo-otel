@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-demo
+  namespace: argocd
+spec:
+  destination:
+    namespace: argo-demo
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    repoURL: https://github.com/agh-cs-imbeciles/google-microservices-demo
+    targetRevision: main
+    path: helm-chart
+    helm:
+      releaseName: microservices-demo
+      values: |
+        frontend:
+          service:
+            type: LoadBalancer
+        adService:
+          enabled: true
+        checkoutService:
+          enabled: true
+  syncPolicy:
+    syncOptions:
+      - CreateNamespace=true
+    automated:
+      prune: true
+      selfHeal: true
