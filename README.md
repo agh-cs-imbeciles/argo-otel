@@ -54,31 +54,29 @@ environments.
   management of containerized applications.
 - Minikube - is lightweight implementation of Kubernetes, installing simple cluster
   consiting of one node.
-- Amazon Elastic Kubernetes Service (Amazon EKS) - is a fully managed Kubernetes 
-  service that enables you to run Kubernetes seamlessly in both AWS Cloud 
+- Amazon Elastic Kubernetes Service (Amazon EKS) - is a fully managed Kubernetes
+  service that enables you to run Kubernetes seamlessly in both AWS Cloud
   and on-premises data centers.
 - Grafana - is a multi-platform open source analytics and interactive
   visualization web application. When connected to kubernetes allows for
   monitoring of deployed applications.
-- Prometheus - is a free software application used for event monitoring 
-  and alerting. It records metrics in a time series database (allowing 
-  for high dimensionality) built using an HTTP pull model, with flexible 
+- Prometheus - is a free software application used for event monitoring
+  and alerting. It records metrics in a time series database (allowing
+  for high dimensionality) built using an HTTP pull model, with flexible
   queries and real-time alerting.
 
 ## Case Study Concept
 
 This project's goal is to present simple application of Argo CD tool. It will be used
-to deploy application [google-microservices-demo](https://github.com/agh-cs-imbeciles/google-microservices-demo) 
+to deploy application [google-microservices-demo](https://github.com/agh-cs-imbeciles/google-microservices-demo)
 forked from [microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo)
 which is web-based e-commerce solution. Apart from that, deployments of Grafana and Prometheus will be used
 to monitor current metrics [exposed by Argo CD](https://argo-cd.readthedocs.io/en/latest/operator-manual/metrics/) as well
-as e-commerce app itself. To control what is the desired state of the application, Helm charts defined in 
+as e-commerce app itself. To control what is the desired state of the application, Helm charts defined in
 `google-microservices-demo/helm-chart/` will be incorporated. As some of metrics changes are triggered by changes in
 demo application repository or Argo CD configuration, we will create scripts to facilitate performing those updates.
 We plan to test this project locally on minikube and push final version on Amazon EKS
 to compare correctness between both environments.
-
-
 
 ## Architecture
 
@@ -86,7 +84,20 @@ to compare correctness between both environments.
 
 ## Environment Configuration
 
-🚧
+#### 2. Prometheus Setup With Argo
+
+- Run configured prometheus (first you need to have argo-cd set up)
+
+```
+kubectl apply -f prometheus/argo-prometheus.yaml
+```
+
+- port forward prometheus and grafana GUI to local machine
+
+```
+kubectl port-forward service/prometheus-operated -n monitoring 9090:9090
+kubectl port-forward service/prometheus-grafana -n monitoring 3000:80
+```
 
 ## Installation
 
