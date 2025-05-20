@@ -84,17 +84,17 @@ to compare correctness between both environments.
 
 ## Environment Configuration
 
-#### 2. Prometheus Setup With Argo
+### Prometheus Setup with Argo
 
-- Run configured prometheus (first you need to have argo-cd set up)
+1. Run configured Prometheus (first you need to have Argo CD configured)
 
-```
+```bash
 kubectl apply -f prometheus/argo-prometheus.yaml
 ```
 
-- port forward prometheus and grafana GUI to local machine
+2. Port forward Prometheus and Grafana GUI to a local machine
 
-```
+```bash
 kubectl port-forward service/prometheus-operated -n monitoring 9090:9090
 kubectl port-forward service/prometheus-grafana -n monitoring 3000:80
 ```
