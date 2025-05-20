@@ -80,7 +80,7 @@ to compare correctness between both environments.
 
 ## Architecture
 
-🚧
+![SIUUUUUUUU](./images/SIUUUU.png)
 
 ## Environment Configuration
 
