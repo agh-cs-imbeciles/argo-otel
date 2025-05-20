@@ -72,9 +72,14 @@ to deploy application [google-microservices-demo](https://github.com/agh-cs-imbe
 forked from [microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo)
 which is web-based e-commerce solution. Apart from that, deployments of Grafana and Prometheus will be used
 to monitor current metrics [exposed by Argo CD](https://argo-cd.readthedocs.io/en/latest/operator-manual/metrics/) as well
-as e-commerce app itself. To control what is the desired state of the application, Helm charts defined in
+as e-commerce app itself. We will also apply Jeager to gather traces that will show us application performance. 
+To control what is the desired state of the application, Helm charts defined in
 `google-microservices-demo/helm-chart/` will be incorporated. As some of metrics changes are triggered by changes in
-demo application repository or Argo CD configuration, we will create scripts to facilitate performing those updates.
+demo application repository or Argo CD configuration, we will create scripts to facilitate performing those updates. Example script
+will:
+- initiate build of application from source code
+- upload image to repository
+- change and commit helm file to acknowledge new image. 
 We plan to test this project locally on minikube and push final version on Amazon EKS
 to compare correctness between both environments.
 
@@ -86,6 +91,15 @@ to compare correctness between both environments.
 
 ### Prometheus Setup with Argo
 
+0. Helpful information:
+Get Argo cd initial admin password
+```bash
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+```
+Get Grafana initial admin password
+```bash
+kubectl get secret monitoring-grafana -n argocd -o yaml
+```
 1. Run configured Prometheus (first you need to have Argo CD configured)
 
 ```bash
