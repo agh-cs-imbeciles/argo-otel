@@ -84,9 +84,13 @@ We plan to test this project locally on minikube and push final version on Amazo
 to compare correctness between both environments.
 
 ## Architecture
+Deployment architecture
 
-![SIUUUUUUUU](./images/SIUUUU_black.png)
+![Architecture](./images/SIUUUU_BIG.png)
 
+Jager example application "Hot R.O.D. - Rides on Demand" architecture
+
+![Application](./images/jager_app.webp)
 ## Environment Configuration
 
 ### Prometheus Setup with Argo
