@@ -88,7 +88,7 @@ Deployment architecture
 
 ![Architecture](./images/SIUUUU_BIG.png)
 
-Jager example application "Hot R.O.D. - Rides on Demand" architecture
+Architecture of jager example application "Hot R.O.D. - Rides on Demand" 
 
 ![Application](./images/jager_app.webp)
 ## Environment Configuration
