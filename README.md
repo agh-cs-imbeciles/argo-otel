@@ -102,13 +102,21 @@ Architecture of jager example application "Hot R.O.D. - Rides on Demand"
 
 ### Essential Information
 
-1. Getting Argo CD initial admin password
+1. Argo CD admin dashboard credentials
+   - Login: `admin`
+   - Password: _see "Getting Argo CD initial admin password"_
+
+2. Grafana admin dashboard credentials
+   - Login: `admin`
+   - Password: `admin`
+
+3. Getting Argo CD initial admin password
 
    ```bash
    kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
    ```
 
-2. Getting Grafana initial admin password
+4. Getting Grafana initial admin password
 
    ```bash
    kubectl get secret monitoring-grafana -n argocd -o yaml
