@@ -26,7 +26,7 @@ spec:
               enabled: true
               label: grafana_dashboard
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
-      path: "prometheus/manifest"
+      path: "grafana/manifest"
       targetRevision: promo
   destination:
     server: https://kubernetes.default.svc
