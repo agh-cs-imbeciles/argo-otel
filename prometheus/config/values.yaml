@@ -2,3 +2,5 @@ nodeExporter:
   enabled: false
 grafana:
   enabled: false
+alertmanager:
+  enabled: false
