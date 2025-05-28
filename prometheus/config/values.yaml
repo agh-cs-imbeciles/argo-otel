@@ -1,7 +1,7 @@
 nodeExporter:
   enabled: false
 grafana:
-  enabled: true
+  enabled: false
   defaultDashboardsEnabled: true
   sidecar:
     dashboards:
