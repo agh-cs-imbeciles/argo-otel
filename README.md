@@ -122,6 +122,26 @@ Architecture of jager example application "Hot R.O.D. - Rides on Demand"
    kubectl get secret monitoring-grafana -n argocd -o yaml
    ```
 
+### Argo CD Setup
+
+1. Create an Argo CD namespace
+
+   ```bash
+   kubectl create namespace argocd
+   ```
+
+2. Install preconfigured Argo CD
+
+   ```bash
+   kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+   ```
+
+3. Port forward Argo CD dashboard server
+
+   ```bash
+   kubectl port-forward svc/argocd-server -n argocd 8080:443
+   ```
+
 ### Prometheus Setup with Argo
 
 1. Run configured Prometheus (first you need to have Argo CD configured)
