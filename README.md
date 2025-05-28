@@ -157,6 +157,12 @@ Architecture of jager example application "Hot R.O.D. - Rides on Demand"
    kubectl port-forward service/prometheus-grafana -n monitoring 3000:80
    ```
 
+### Demo Application Setup
+
+```bash
+kubectl apply -f argo/argo-cd/argo-app.yml
+```
+
 ## Installation
 
 🚧
