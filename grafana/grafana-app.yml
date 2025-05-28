@@ -32,12 +32,12 @@ spec:
                 - name: Prometheus
                   type: prometheus
                   access: proxy
-                  url: http://prometheus-operated.monitoring.svc.cluster.local
+                  url: http://prometheus-operated:9090
                   isDefault: true
                 - name: Tempo
                   type: tempo
                   access: proxy
-                  url: http://tempo.monitoring.svc.cluster.local
+                  url: http://tempo:3100
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       path: "grafana/manifest"
       targetRevision: promo
