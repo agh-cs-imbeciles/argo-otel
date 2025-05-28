@@ -103,10 +103,12 @@ Architecture of jager example application "Hot R.O.D. - Rides on Demand"
 ### Essential Information
 
 1. Argo CD admin dashboard credentials
+
    - Login: `admin`
    - Password: _see "Getting Argo CD initial admin password"_
 
 2. Grafana admin dashboard credentials
+
    - Login: `admin`
    - Password: `admin`
 
@@ -144,9 +146,17 @@ Architecture of jager example application "Hot R.O.D. - Rides on Demand"
 
 ### Grafana Setup
 
-```bash
-kubectl apply -f grafana/grafana-app.yml
-```
+1. Install Grafana application
+
+   ```bash
+   kubectl apply -f grafana/grafana-app.yml
+   ```
+
+2. Port forward Grafana dashboard
+
+   ```bash
+   kubectl port-forward svc/grafana -n monitoring 3000:80
+   ```
 
 ### Grafana Tempo Setup
 
