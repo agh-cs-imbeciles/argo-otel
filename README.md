@@ -52,8 +52,8 @@ environments.
 - Argo CD
 - Kubernetes - is an open source system for automating deployment, scaling, and
   management of containerized applications.
-- Minikube - is lightweight implementation of Kubernetes, installing simple cluster
-  consiting of one node.
+- Minikube - is lightweight implementation of Kubernetes, installing simple
+  cluster consiting of one node.
 - Amazon Elastic Kubernetes Service (Amazon EKS) - is a fully managed Kubernetes
   service that enables you to run Kubernetes seamlessly in both AWS Cloud
   and on-premises data centers.
@@ -67,55 +67,67 @@ environments.
 
 ## Case Study Concept
 
-This project's goal is to present simple application of Argo CD tool. It will be used
-to deploy application [google-microservices-demo](https://github.com/agh-cs-imbeciles/google-microservices-demo)
-forked from [microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo)
-which is web-based e-commerce solution. Apart from that, deployments of Grafana and Prometheus will be used
-to monitor current metrics [exposed by Argo CD](https://argo-cd.readthedocs.io/en/latest/operator-manual/metrics/) as well
-as e-commerce app itself. We will also apply Jeager to gather traces that will show us application performance. 
-To control what is the desired state of the application, Helm charts defined in
-`google-microservices-demo/helm-chart/` will be incorporated. As some of metrics changes are triggered by changes in
-demo application repository or Argo CD configuration, we will create scripts to facilitate performing those updates. Example script
-will:
-- initiate build of application from source code
-- upload image to repository
-- change and commit helm file to acknowledge new image. 
+This project's goal is to present simple application of Argo CD tool. It will be
+used to deploy application [google-microservices-demo](https://github.com/agh-cs-imbeciles/google-microservices-demo)
+forked from
+[microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo),
+which is web-based e-commerce solution. Apart from that, deployments of Grafana
+and Prometheus will be used to monitor current metrics [exposed by Argo CD](https://argo-cd.readthedocs.io/en/latest/operator-manual/metrics/)
+as well as e-commerce app itself. We will also apply Jeager to gather traces
+that will show us application performance. To control what is the desired state
+of the application, Helm charts defined in
+`google-microservices-demo/helm-chart/` will be incorporated. As some of metrics
+changes are triggered by changes in demo application repository or Argo CD
+configuration, we will create scripts to facilitate performing those updates.
+Example script will:
+
+- Initiate build of application from source code
+- Upload image to repository
+- Change and commit helm file to acknowledge new image.
+
 We plan to test this project locally on minikube and push final version on Amazon EKS
 to compare correctness between both environments.
 
 ## Architecture
+
 Deployment architecture
 
 ![Architecture](./images/SIUUUU_BIG.png)
 
-Architecture of jager example application "Hot R.O.D. - Rides on Demand" 
+Architecture of jager example application "Hot R.O.D. - Rides on Demand"
 
 ![Application](./images/jager_app.webp)
+
 ## Environment Configuration
+
+### Essential Information
+
+1. Getting Argo CD initial admin password
+
+   ```bash
+   kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+   ```
+
+2. Getting Grafana initial admin password
+
+   ```bash
+   kubectl get secret monitoring-grafana -n argocd -o yaml
+   ```
 
 ### Prometheus Setup with Argo
 
-0. Helpful information:
-Get Argo cd initial admin password
-```bash
-kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
-```
-Get Grafana initial admin password
-```bash
-kubectl get secret monitoring-grafana -n argocd -o yaml
-```
 1. Run configured Prometheus (first you need to have Argo CD configured)
 
-```bash
-kubectl apply -f prometheus/argo-prometheus.yaml
-```
+   ```bash
+   kubectl apply -f prometheus/argo-prometheus.yaml
+   ```
 
 2. Port forward Prometheus and Grafana GUI to a local machine
 
-```bash
-kubectl port-forward service/prometheus-operated -n monitoring 9090:9090
-kubectl port-forward service/prometheus-grafana -n monitoring 3000:80
-```
+   ```bash
+   kubectl port-forward service/prometheus-operated -n monitoring 9090:9090
+   kubectl port-forward service/prometheus-grafana -n monitoring 3000:80
+   ```
 
 ## Installation
 
