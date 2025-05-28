@@ -14,6 +14,10 @@ spec:
           - $values/prometheus/config/values.yaml
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       ref: values
+      targetRevision: promo
+    - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
+      path: "prometheus/manifest"
+      targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
