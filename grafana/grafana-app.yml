@@ -25,6 +25,19 @@ spec:
             dashboards:
               enabled: true
               label: grafana_dashboard
+          datasources:
+            datasources.yaml:
+              apiVersion: 1
+              datasources:
+                - name: Prometheus
+                  type: prometheus
+                  access: proxy
+                  url: http://prometheus-operated.monitoring.svc.cluster.local
+                  isDefault: true
+                - name: Tempo
+                  type: tempo
+                  access: proxy
+                  url: http://tempo.monitoring.svc.cluster.local
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       path: "grafana/manifest"
       targetRevision: promo
