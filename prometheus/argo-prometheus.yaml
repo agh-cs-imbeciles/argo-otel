@@ -17,7 +17,7 @@ spec:
       targetRevision: promo
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       path: "prometheus/manifest"
-      targetRevision: main
+      targetRevision: promo
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
