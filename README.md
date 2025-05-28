@@ -142,6 +142,18 @@ Architecture of jager example application "Hot R.O.D. - Rides on Demand"
    kubectl port-forward svc/argocd-server -n argocd 8080:443
    ```
 
+### Grafana Setup
+
+```bash
+kubectl apply -f grafana/grafana-app.yml
+```
+
+### Grafana Tempo Setup
+
+```bash
+kubectl apply -f tempo/tempo-app.yml
+```
+
 ### Prometheus Setup with Argo
 
 1. Run configured Prometheus (first you need to have Argo CD configured)
