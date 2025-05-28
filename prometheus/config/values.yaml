@@ -2,8 +2,3 @@ nodeExporter:
   enabled: false
 grafana:
   enabled: false
-  defaultDashboardsEnabled: true
-  sidecar:
-    dashboards:
-      enabled: true
-      label: grafana_dashboard
