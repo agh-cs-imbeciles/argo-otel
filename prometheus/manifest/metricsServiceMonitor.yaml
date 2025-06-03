@@ -22,7 +22,6 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: frontend
+      app.kubernetes.io/name: frontend
   endpoints:
     - port: http
-      path: /metrics
