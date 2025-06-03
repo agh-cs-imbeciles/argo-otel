@@ -5,21 +5,42 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source:
-    repoURL: https://grafana.github.io/helm-charts
-    chart: grafana
-    targetRevision: 9.2.1
-    helm:
-      releaseName: grafana
-      values: |
-        adminUser: admin
-        adminPassword: admin
-        persistence:
-          enabled: false
-        service:
-          type: ClusterIP
-        ingress:
-          enabled: false
+  sources:
+    - repoURL: https://grafana.github.io/helm-charts
+      chart: grafana
+      targetRevision: 9.2.1
+      helm:
+        releaseName: grafana
+        values: |
+          adminUser: admin
+          adminPassword: admin
+          persistence:
+            enabled: false
+          service:
+            type: ClusterIP
+          ingress:
+            enabled: false
+          defaultDashboardsEnabled: true
+          sidecar:
+            dashboards:
+              enabled: true
+              label: grafana_dashboard
+          datasources:
+            datasources.yaml:
+              apiVersion: 1
+              datasources:
+                - name: Prometheus
+                  type: prometheus
+                  access: proxy
+                  url: http://prometheus-operated:9090
+                  isDefault: true
+                - name: Tempo
+                  type: tempo
+                  access: proxy
+                  url: http://tempo:3100
+    - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
+      path: "grafana/manifest"
+      targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring

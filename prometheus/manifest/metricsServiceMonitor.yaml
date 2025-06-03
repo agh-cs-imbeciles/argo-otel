@@ -11,3 +11,21 @@ spec:
       app.kubernetes.io/name: argocd-metrics
   endpoints:
     - port: metrics
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: frontend-metrics
+  namespace: demo-app
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+  namespaceSelector: # Ensures it only looks for services in this namespace
+    matchNames:
+      - demo-app
+  endpoints:
+    - port: http
+      scheme: http
