@@ -100,13 +100,13 @@ Architecture of google microservices example application "Online Boutique"
 
 Tools presented below should be installed before proceeding further:
 
-1. ![argocd CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
-2. ![helm CLI](https://helm.sh/docs/intro/install/)
-3. ![minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download)
+1. [argocd CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+2. [helm CLI](https://helm.sh/docs/intro/install/)
+3. [minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download)
 
 If you also plan on building google microservices demo application from scratch:
 
-1. ![docker](https://docs.docker.com/engine/install/)
+1. [docker](https://docs.docker.com/engine/install/)
 
 ### Argo cd applications
 
