@@ -14,10 +14,10 @@ spec:
           - $values/prometheus/config/values.yaml
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       ref: values
-      targetRevision: main
+      targetRevision: vibers
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       path: "prometheus/manifest"
-      targetRevision: main
+      targetRevision: vibers
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
