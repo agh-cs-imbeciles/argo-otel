@@ -90,9 +90,9 @@ Deployment architecture
 
 ![Architecture](./images/SIUUUU_BIG.png)
 
-Architecture of jager example application "Hot R.O.D. - Rides on Demand"
+Architecture of google microservices example application "Online Boutique"
 
-![Application](./images/jager_app.webp)
+![Application](./images/architecture-diagram.png)
 
 ## Environment configuration
 
