@@ -10,7 +10,7 @@ spec:
   project: default
   source:
     repoURL: https://github.com/agh-cs-imbeciles/google-microservices-demo
-    targetRevision: main
+    targetRevision: vibers
     path: helm-chart
     helm:
       releaseName: microservices-demo
