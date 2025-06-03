@@ -40,7 +40,7 @@ spec:
                   url: http://tempo:3100
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       path: "grafana/manifest"
-      targetRevision: promo
+      targetRevision: main
   destination:
     server: https://kubernetes.default.svc
     namespace: monitoring
