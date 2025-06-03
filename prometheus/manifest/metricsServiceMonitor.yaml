@@ -15,7 +15,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: frontend-metrics
+  name: app-service-metrics
   namespace: demo-app
   labels:
     release: prometheus
@@ -23,9 +23,27 @@ spec:
   selector:
     matchLabels:
       app: frontend
-  namespaceSelector: # Ensures it only looks for services in this namespace
+  namespaceSelector:
     matchNames:
       - demo-app
   endpoints:
     - port: http
+      scheme: http
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: adservice-metrics
+  namespace: demo-app
+  labels:
+    release: prometheus
+spec:
+  selector:
+    matchLabels:
+      app: adservice
+  namespaceSelector:
+    matchNames:
+      - demo-app
+  endpoints:
+    - port: metrics
       scheme: http
