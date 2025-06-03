@@ -16,7 +16,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: frontend-metrics
-  namespace: argocd
+  namespace: demo-app
   labels:
     release: prometheus
 spec:
