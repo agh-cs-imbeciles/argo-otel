@@ -54,9 +54,6 @@ environments.
   management of containerized applications.
 - Minikube - is lightweight implementation of Kubernetes, installing simple
   cluster consiting of one node.
-- Amazon Elastic Kubernetes Service (Amazon EKS) - is a fully managed Kubernetes
-  service that enables you to run Kubernetes seamlessly in both AWS Cloud
-  and on-premises data centers.
 - Grafana - is a multi-platform open source analytics and interactive
   visualization web application. When connected to kubernetes allows for
   monitoring of deployed applications.
@@ -73,20 +70,19 @@ forked from
 [microservices-demo](https://github.com/GoogleCloudPlatform/microservices-demo),
 which is web-based e-commerce solution. Apart from that, deployments of Grafana
 and Prometheus will be used to monitor current metrics [exposed by Argo CD](https://argo-cd.readthedocs.io/en/latest/operator-manual/metrics/)
-as well as e-commerce app itself. We will also apply Jeager to gather traces
+as well as e-commerce app itself. We will also apply Grafana tempo to gather traces
 that will show us application performance. To control what is the desired state
 of the application, Helm charts defined in
 `google-microservices-demo/helm-chart/` will be incorporated. As some of metrics
 changes are triggered by changes in demo application repository or Argo CD
 configuration, we will create scripts to facilitate performing those updates.
-Example script will:
+Example scripts will:
 
 - Initiate build of application from source code
 - Upload image to repository
 - Change and commit helm file to acknowledge new image.
 
-We plan to test this project locally on minikube and push final version on Amazon EKS
-to compare correctness between both environments.
+We plan to test this project locally on minikube.
 
 ## Architecture
 
@@ -98,7 +94,55 @@ Architecture of jager example application "Hot R.O.D. - Rides on Demand"
 
 ![Application](./images/jager_app.webp)
 
-## Environment Configuration
+## Environment configuration
+
+### Necessary tools
+
+Tools presented below should be installed before proceeding further:
+
+1. ![argocd CLI](https://argo-cd.readthedocs.io/en/stable/cli_installation/)
+2. ![helm CLI](https://helm.sh/docs/intro/install/)
+3. ![minikube](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download)
+
+If you also plan on building google microservices demo application from scratch:
+
+1. ![docker](https://docs.docker.com/engine/install/)
+
+### Argo cd applications
+
+This project consists of many smaller configurable applications, deployed with Argo cd. Instructions for Argo cd on how to deploy them are stored in respective folders and files:
+
+1. `argo/argo-cd/argo-app.yml` - google microservices demo application configuration.
+
+2. `grafana/grafana-app.yml` - grafana configuration.
+
+3. `prometheus/argo-prometheus.yaml` - prometheus configuration.
+
+4. `tempo/tempo-app.yml` - grafana tempo configuration.
+
+Below most important properties:
+   - `server` - kubernetes server addresss argo and other applications are deployed on.
+   - `repoURL` - repository containing application which argo cd actively observes in order to update demo application.
+   - `targetRevision` - commit or branch argo cd currently tracks.
+
+### Other configuration
+
+1. `prometheus/config` and `prometheus/manifest` - folders containing files with other advanced properties for prometheus, separated from main file to improve redability.
+
+2. `scripts/build_publish.sh` - script for building google microservices demo application images and pushing them to dockerhub.
+   1. `BUILDPLATFORM` - target platform for build.
+   2. `TAG` - tag to give particular build on dockerhub. It is argument of script.
+   3. `REPO_PREFIX` - prefix of repository on dockerhub that images should be pushed to.
+
+3. `app/helm-chart/Chart.yaml` - source of truth for Argo cd to deploy google microservices demo application.
+   - `version` - current version of helm-chart.
+   - `appVersion` - version of docker images to be used during deployment, should be the same as `TAG` in `scripts/build_publish.sh`.
+
+4. `app/helm-chart/templates` - configuration specific for each microservice.
+
+5. `app/helm-chart/values` - other configuration.
+
+## Installation
 
 ### Essential Information
 
@@ -181,13 +225,18 @@ kubectl apply -f tempo/tempo-app.yml
 
 ### Demo Application Setup
 
-```bash
-kubectl apply -f argo/argo-cd/argo-app.yml
-```
+1. Run application
 
-## Installation
+   ```bash
+   kubectl apply -f argo/argo-cd/argo-app.yml
+   ```
 
-🚧
+2. Port forward application ui
+
+   ```bash
+   kubectl port-forward svc/grafana -n monitoring 3001:80
+   ```
+
 
 ## Reproduction
 
@@ -199,7 +248,12 @@ kubectl apply -f argo/argo-cd/argo-app.yml
 
 ## Using Artificial Intelligence
 
-🚧
+During development of this project we used various widely available LLM. We utilized them in following applications:
+
+1. Solving problems and errors that occured during develpment - ![GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)
+2. Inline code completion when developing configuration - ![GitHub Copilot](https://github.com/features/copilot)
+3. Generating some parts of documentation - ![GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)
+4. Asking for the meaning of life, universe and how to deal with SUU induced depression - ![GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)
 
 ## Summary
 
