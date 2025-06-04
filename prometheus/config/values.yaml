@@ -1,5 +1,5 @@
 nodeExporter:
-  enabled: true
+  enabled: false
 grafana:
   enabled: false
 alertmanager:
