@@ -1,3 +1,3 @@
 data:
-  timeout.reconciliation: "10"
-  timeout.reconciliation.jitter: "5"
+  timeout.reconciliation: 10s
+  timeout.reconciliation.jitter: 5s
