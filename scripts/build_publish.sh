@@ -6,7 +6,7 @@ if [ -z "$1" ]; then
 fi
 export BUILDPLATFORM="linux/amd64"
 export TAG=$1
-export REPO_PREFIX=kpiotr6
+export REPO_PREFIX=suselkowy
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 SCRIPT_PATH="$SCRIPT_DIR/../app/docs/releasing/make-docker-images.sh"
