@@ -3,4 +3,4 @@ nodeExporter:
 grafana:
   enabled: false
 alertmanager:
-  enabled: true
+  enabled: false
