@@ -14,7 +14,7 @@ spec:
           - $values/prometheus/config/values.yaml
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       ref: values
-      targetRevision: main
+      targetRevision: owsianka
     - repoURL: "https://github.com/agh-cs-imbeciles/argo-otel.git"
       path: "prometheus/manifest"
       targetRevision: main
