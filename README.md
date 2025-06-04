@@ -239,7 +239,7 @@ kubectl apply -f tempo/tempo-app.yml
 
 ## Reproduction
 
-🚧
+To test argocd setup, just change image app version in Chart.yaml. After about 3 minutes or manual sync new pods should be set up. We prepared  two images "v1.1.0" nad "v1.1.1". Change is visable in grafana dashboard -> "v1.1.1" have artificial delay implemented on frontend. 
 
 ## Demo Deployment
 
