@@ -253,6 +253,7 @@ During development of this project we used various widely available LLM. We util
 2. Inline code completion when developing configuration - [GitHub Copilot](https://github.com/features/copilot)[^9]
 3. Generating some parts of documentation - [GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)[^8]
 4. Asking for the meaning of life, universe and how to deal with SUU induced depression - [GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)[^8]
+5. Help generating grafana dashboards and app metrics - VS Code copilot with Claude 3.5 
 
 ## Summary
 
