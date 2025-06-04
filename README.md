@@ -76,7 +76,7 @@ forked from
 [`GoogleCloudPlatform/microservices-demo`](https://github.com/GoogleCloudPlatform/microservices-demo)[^11],
 which is web-based e-commerce solution. Apart from that, deployments of Grafana
 and Prometheus will be used to monitor current [metrics exposed by Argo CD](https://argo-cd.readthedocs.io/en/latest/operator-manual/metrics/)[^12]
-as well as e-commerce app itself. We will also apply Grafana tempo to gather traces
+as well as e-commerce app itself. We will also apply Grafana Tempo to gather traces
 that will show us application performance. To control what is the desired state
 of the application, Helm charts defined in
 `app/helm-chart/` will be incorporated. As some of metrics
@@ -116,13 +116,13 @@ Tools presented below should be installed before proceeding further:
 
 This project consists of many smaller configurable applications, deployed with Argo CD. Instructions for Argo CD on how to deploy them are stored in respective folders and files:
 
-1. `argo/argo-cd/argo-app.yml` - google microservices demo application configuration.
+1. `argo/argo-cd/argo-app.yml` – Google Microservices Demo Application configuration
 
-2. `grafana/grafana-app.yml` - grafana configuration.
+2. `grafana/grafana-app.yml` – Grafana configuration
 
-3. `prometheus/argo-prometheus.yaml` - prometheus configuration.
+3. `prometheus/argo-prometheus.yaml` – Prometheus configuration.
 
-4. `tempo/tempo-app.yml` - grafana tempo configuration.
+4. `tempo/tempo-app.yml` – Grafana Tempo configuration.
 
 Below most important properties: - `server` - kubernetes server addresss argo and other applications are deployed on. - `repoURL` - repository containing application which Argo CD actively observes in order to update demo application. - `targetRevision` - commit or branch Argo CD currently tracks.
 
@@ -238,7 +238,7 @@ kubectl apply -f tempo/tempo-app.yml
 
 ## Reproduction
 
-To test argocd setup, just change image app version in Chart.yaml. After about 3 minutes or manual sync new pods should be set up. We prepared  two images "v1.1.0" nad "v1.1.1". Change is visable in grafana dashboard -> "v1.1.1" have artificial delay implemented on frontend. On left site of picture image "v1.1.1" with delays, on right "v1.1.0" without ![Architecture](./images/grafana_metric.jpg)
+To test argocd setup, just change image app version in Chart.yaml. After about 3 minutes or manual sync new pods should be set up. We prepared two images "v1.1.0" nad "v1.1.1". Change is visable in grafana dashboard -> "v1.1.1" have artificial delay implemented on frontend. On left site of picture image "v1.1.1" with delays, on right "v1.1.0" without ![Grafana metrics](./images/grafana_metric.jpg)
 
 ## Demo Deployment
 
