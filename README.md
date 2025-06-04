@@ -208,7 +208,7 @@ Below most important properties:
 kubectl apply -f tempo/tempo-app.yml
 ```
 
-### Prometheus Setup with Argo
+### Prometheus Setup
 
 1. Run configured Prometheus (first you need to have Argo CD configured)
 
@@ -216,11 +216,10 @@ kubectl apply -f tempo/tempo-app.yml
     kubectl apply -f prometheus/argo-prometheus.yaml
     ```
 
-2. Port forward Prometheus and Grafana GUI to a local machine
+2. Port forward Prometheus (needed only for development)
 
     ```bash
     kubectl port-forward service/prometheus-operated -n monitoring 9090:9090
-    kubectl port-forward service/prometheus-grafana -n monitoring 3000:80
     ```
 
 ### Demo Application Setup
