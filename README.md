@@ -1,9 +1,14 @@
 # Argo CD OTel
 
+<!-- markdownlint-disable MD033 -->
+
 Argo CD OTel (OpenTelemetry) integration enables observability for Argo CD by
 exporting metrics, traces the OpenTelemetry standard. The project is developed
 as a part of Environment of Services Implementation course (Środowiska
-udostępniania usług) at AGH University in Kraków at Faculty of Computer Science.
+udostępniania usług) <img src="./images/siuuuuuuuuuuu.gif" alt="SIUU"
+width="12"> at AGH University in Kraków at Faculty of Computer Science.
+
+<!-- markdownlint-enable MD033 -->
 
 Year: 2024/2025, semester: summer, group 4.
 
