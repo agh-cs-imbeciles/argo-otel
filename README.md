@@ -129,7 +129,7 @@ This project consists of many smaller configurable applications, deployed with A
 
 4. `tempo/tempo-app.yml` – Grafana Tempo configuration.
 
-Below most important properties: - `server` - kubernetes server addresss argo and other applications are deployed on. - `repoURL` - repository containing application which Argo CD actively observes in order to update demo application. - `targetRevision` - commit or branch Argo CD currently tracks.
+Below most important properties: - `server` - kubernetes server addresss that Argo and other applications are deployed on. - `repoURL` - repository containing application which Argo CD actively observes in order to update demo application. - `targetRevision` - commit or branch Argo CD currently tracks.
 
 ### Other configuration
 
@@ -240,6 +240,49 @@ kubectl apply -f tempo/tempo-app.yml
    ```bash
    kubectl port-forward svc/frontend -n demo-app 4000:80
    ```
+
+### Building and Changing Demo Application Images
+1. Change the `REPO_PREFIX` variable in `scripts/build_publish.sh` to your Docker Hub repository prefix, e.g. `kpiotr6`.
+
+2. Change the `BUILDPLATFORM` variable in `scripts/build_publish.sh` to your target platform, e.g. `linux/amd64`.
+
+3. Make sure you are logged in to Docker Hub:
+
+   ```bash
+   docker login
+   ```
+
+4. Build and publish demo application images
+
+   ```bash
+   ./scripts/build_publish.sh <TAG>
+   ```
+
+   where `<TAG>` is the tag you want to use for the images, e.g. `v1.1.0`.
+
+5. Update Helm chart with new image version:
+
+   ```bash
+   sed -i 's/appVersion: .*/appVersion: <TAG>/' app/helm-chart/Chart.yaml
+   ```
+   where `<TAG>` is the tag you used in the previous step, e.g. `v1.1.0`. You can also do this manually by editing `app/helm-chart/Chart.yaml` file.
+
+6. Commit the changes to the repository:
+
+   ```bash
+   git add app/helm-chart/Chart.yaml
+   git commit -m "Update app version to <TAG>"
+   git push origin main
+   ```
+
+7. Sync Argo CD to apply the changes:
+
+   ```bash
+   argocd app sync demo-app
+   ```
+   or you can do it manually via Argo CD dashboard by clicking on the "Sync" button for the `demo-app` application.
+
+8. After a few minutes, the new version of the application should be fully deployed and visible in the Argo CD dashboard.
 
 ## Reproduction
 
