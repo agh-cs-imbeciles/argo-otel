@@ -241,7 +241,7 @@ kubectl apply -f tempo/tempo-app.yml
    kubectl port-forward svc/frontend -n demo-app 4000:80
    ```
 
-### Building and Changing Demo Application Images
+### Building Demo Application Images
 1. Change the `REPO_PREFIX` variable in `scripts/build_publish.sh` to your Docker Hub repository prefix, e.g. `kpiotr6`.
 
 2. Change the `BUILDPLATFORM` variable in `scripts/build_publish.sh` to your target platform, e.g. `linux/amd64`.
@@ -260,14 +260,16 @@ kubectl apply -f tempo/tempo-app.yml
 
    where `<TAG>` is the tag you want to use for the images, e.g. `v1.1.0`.
 
-5. Update Helm chart with new image version:
+### Changing Demo Application Images
+
+1. Update Helm chart with new image version:
 
    ```bash
    sed -i 's/appVersion: .*/appVersion: <TAG>/' app/helm-chart/Chart.yaml
    ```
-   where `<TAG>` is the tag you used in the previous step, e.g. `v1.1.0`. You can also do this manually by editing `app/helm-chart/Chart.yaml` file.
+   where `<TAG>` is the tag you used in building step, e.g. `v1.1.0`. You can also do this manually by editing `app/helm-chart/Chart.yaml` file.
 
-6. Commit the changes to the repository:
+2. Commit the changes to the repository:
 
    ```bash
    git add app/helm-chart/Chart.yaml
@@ -275,14 +277,14 @@ kubectl apply -f tempo/tempo-app.yml
    git push origin main
    ```
 
-7. Sync Argo CD to apply the changes:
+3. Sync Argo CD to apply the changes:
 
    ```bash
    argocd app sync demo-app
    ```
    or you can do it manually via Argo CD dashboard by clicking on the "Sync" button for the `demo-app` application.
 
-8. After a few minutes, the new version of the application should be fully deployed and visible in the Argo CD dashboard.
+4. After a few minutes, the new version of the application should be fully deployed and visible in the Argo CD dashboard.
 
 ## Reproduction
 
