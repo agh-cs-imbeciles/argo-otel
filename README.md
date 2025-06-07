@@ -242,6 +242,7 @@ kubectl apply -f tempo/tempo-app.yml
    ```
 
 ### Building Demo Application Images
+
 1. Change the `REPO_PREFIX` variable in `scripts/build_publish.sh` to your Docker Hub repository prefix, e.g. `kpiotr6`.
 
 2. Change the `BUILDPLATFORM` variable in `scripts/build_publish.sh` to your target platform, e.g. `linux/amd64`.
@@ -288,7 +289,40 @@ kubectl apply -f tempo/tempo-app.yml
 
 ## Reproduction
 
-To test argocd setup, just change image app version in Chart.yaml. After about 3 minutes or manual sync new pods should be set up. We prepared two images "v1.1.0" nad "v1.1.1". Change is visable in grafana dashboard -> "v1.1.1" have artificial delay implemented on frontend. On left site of picture image "v1.1.1" with delays, on right "v1.1.0" without ![Grafana metrics](./images/grafana_metric.jpg)
+
+To test Argocd setup, we perform folowing steps:
+
+1. Set proper variables, that were mentioned in [Environment Configuration](#environment-configuration). In this example we will use our private repositories on `kpiotr6` namespace.
+
+2. Build and publish Demo application images using the script `scripts/build_publish.sh <TAG>`. You can omit this step if you have access to prebuilt images on Docker Hub.
+
+3. Make sure that you have the `app/helm-chart/Chart.yaml` file updated with the correct `appVersion` that matches the image tag you want to deploy. This file has to be commited present on repository that is observed by Argo CD. In this example we will use "v1.1.0" version.
+
+4. Install Argo CD, Grafana, Prometheus, Tempo and Demo application as described in the [Installation](#installation) section, it is necessary to run `minikube tunnel` to make sure that Demo application deploys properly. After logging in to Argo CD dashboard, you should see the `demo-app`, `grafana`, `prometheus` and `tempo` applications in the list of applications like in the image below. ![Argo CD dashboard](./images/argo-dashboard.png).
+
+5. After all applications are deployed, you can access the Demo application UI by port forwarding the frontend service and opening page `http://localhost:4000`.
+It should look like this
+![Demo application UI](./images/butik.png)
+You can play a bit with the application, add some products to the cart, place orders, etc. If you are using version "v1.1.0" you should not see any delays in the application, everything should work smoothly. Additionaly in the top left corner you will see image of Enstein.
+
+6. To test the observability features, you can access Grafana dashboard by port forwarding the Grafana service and opening page `http://localhost:3000`. After selecting `Dashboards` from the left menu you should see the list of available dashboards: `ArgoCD` and `Online Boutique Frontend Metrics Enhanced`. On `ArgoCD` dashboard you can see various metrics related to Argo CD itself, such as application sync status, health status, and more. On `Online Boutique Frontend Metrics Enhanced` dashboard you can see metrics related to the Demo application frontend, such as request duration, error rate, and more.
+![Argo grafana](./images/argo-grafana.png)
+![Demo grafana](./images/demo-grafana.png)
+
+7. To test the tracing features, you can access Grafana Tempo traces by selecting `Drilldown` -> `Traces` from the left menu. by port forwarding the Tempo service and opening page `http://localhost:3200`. Then in traces tab you can select and analyze particular traces of the Demo application. You can see the request flow, duration, and other details. This will help you understand how the application performs and where the bottlenecks are.
+![Tempo traces](./images/traces.png)
+
+8. To observe Argo CD performing application update, change the `appVersion` in `app/helm-chart/Chart.yaml` file to a different version. Then commit the changes and push them to repository. Argo CD should automatically detect the changes and update the application. You can also do this manually as described in [Changing Demo Application Images](#changing-demo-application-images) section. After the update is applied, you can see the new version of the application in the Argo CD dashboard and in the Demo application UI. In this example we will use "v1.1.1" version that has artificial delay implemented on frontend. After successful sync we can see that commit Argo is basing on has changed so it redeploys application with new image version.
+Below we can see first and second commits that application was based on.
+
+![Synced1](./images/synced1.png)
+![Synced2](./images/synced2.png)
+
+9. Go back to Grafana dashboard and select `Online Boutique Frontend Metrics Enhanced` dashboard. You should see that the metrics have changed, e.g. the request duration has increased due to the artificial delay implemented in the frontend of the Demo application.
+![Grafana metrics2](./images/demo-grafana-2.png)
+
+10. You can also check the traces in Grafana Tempo to see how the request flow has changed after the update. The traces should show the increased duration of the requests due to the artificial delay. It's over 10 seconds now.
+![Tempo traces2](./images/traces2.png)
 
 ## Demo Deployment
 
