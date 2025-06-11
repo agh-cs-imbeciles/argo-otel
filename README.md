@@ -169,22 +169,31 @@ Below are listed most important properties of Argo CD application configuration:
 
 ### Other Configuration
 
-1. `prometheus/config` and `prometheus/manifest` - folders containing files with other advanced properties for Prometheus, separated from main file to improve redability
+1. `scripts/build_publish.sh` — script for building Google Microservices Demo Application images and pushing them to Docker Hub
 
-2. `scripts/build_publish.sh` - script for building Google Microservices Demo Application images and pushing them to Docker Hub
+   1. `BUILDPLATFORM` — target platform for build
+   2. `TAG` — tag to give particular build on Docker Hub. It is argument of script
+   3. `REPO_PREFIX` — prefix of repository on Docker Hub that images should be pushed to
 
-   1. `BUILDPLATFORM` - target platform for build
-   2. `TAG` - tag to give particular build on Docker Hub. It is argument of script
-   3. `REPO_PREFIX` - prefix of repository on Docker Hub that images should be pushed to
+2. Grafana dashboards can be modified and extended in very robust way using YAML
+   files called config maps. In our project, 2 such files have been defined:
 
-3. `app/helm-chart/Chart.yaml` - source of truth for Argo CD to deploy Google Microservices Demo Application.
+   1. `argoDashboardConfigMap.yaml` — displays data from Argo CD
+   2. `appDashboardConfigMap.yaml` — displays metrics from the microservice
+      application demo
 
-   - `version` - current version of `helm-chart`
-   - `appVersion` - version of docker images to be used during deployment, should be the same as `TAG` in `scripts/build_publish.sh`
+3. `prometheus/config` and `prometheus/manifest` — folders containing files with other advanced properties for Prometheus, separated from main file to improve redability
 
-4. `app/helm-chart/templates` - configuration specific for each microservice
+4. Application configuration
 
-5. `app/helm-chart/values` - other configuration
+   1. `app/helm-chart/Chart.yaml` - source of truth for Argo CD to deploy Google Microservices Demo Application.
+
+      - `version` — current version of `helm-chart`
+      - `appVersion` — version of docker images to be used during deployment, should be the same as `TAG` in `scripts/build_publish.sh`
+
+   2. `app/helm-chart/templates` — configuration specific for each microservice
+
+   3. `app/helm-chart/values` — other configuration
 
 ## Installation
 
