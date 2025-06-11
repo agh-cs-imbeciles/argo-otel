@@ -97,17 +97,48 @@ We plan to test this project locally on Minikube.
 
 ## Architecture
 
-Deployment architecture
+Our project contains 2 repositories: forked application from Google and
+the primary repository containing all necessary tools to collect and process
+Open Telemetry data as the application itself.
+
+## Complete Architecture
 
 ![Architecture](./images/architecture.png)
 
-Architecture of google microservices example application "Online Boutique"
+## Application Architecure
+
+Architecture of Google Microservices Example Application —
+_**Online Boutique**_.
 
 ![Application](./images/architecture-application.png)
 
-## Environment configuration
+### Project Structure
 
-### Necessary tools
+```text
+├── app
+├── argo
+│   └── argo-cd
+│       └── argo-app.yml
+├── grafana
+│   ├── grafana-app.yml
+│   └── manifest
+│       ├── appDashboardConfigMap.yaml
+│       └── argoDashboardConfigMap.yaml
+├── prometheus
+│   ├── argo-prometheus.yaml
+│   ├── config
+│   │   └── values.yaml
+│   └── manifest
+│       └── metricsServiceMonitor.yaml
+├── scripts
+│   └── build_publish.sh
+└── tempo
+    └── tempo-app.yml
+```
+
+## Environment Configuration
+
+### Necessary Tools
 
 Tools presented below should be installed before proceeding further:
 
@@ -115,40 +146,45 @@ Tools presented below should be installed before proceeding further:
 2. [Helm CLI](https://helm.sh/docs/intro/install/)[^14]
 3. [Minikube](https://minikube.sigs.k8s.io/docs/start/)[^15]
 4. If you also plan on building Google Microservices Demo Application from scratch:
-   [Docker](https://docs.docker.com/engine/install/)[^16].
+   [Docker](https://docs.docker.com/engine/install/)[^16]
 
-### Argo CD applications
+### Argo CD Applications
 
-This project consists of many smaller configurable applications, deployed with Argo CD. Instructions for Argo CD on how to deploy them are stored in respective folders and files:
+This project consists of many smaller configurable applications, deployed with
+Argo CD. Instructions for Argo CD on how to deploy them are stored in respective
+folders and files:
 
-1. `argo/argo-cd/argo-app.yml` – Google Microservices Demo Application configuration
+1. `argo/argo-cd/argo-app.yml` — Google Microservices Demo Application configuration
+2. `grafana/grafana-app.yml` — Grafana configuration
+3. `prometheus/argo-prometheus.yaml` — Prometheus configuration
+4. `tempo/tempo-app.yml` — Grafana Tempo configuration
 
-2. `grafana/grafana-app.yml` – Grafana configuration
+Below are listed most important properties of Argo CD application configuration:
 
-3. `prometheus/argo-prometheus.yaml` – Prometheus configuration.
+- `spec.destination.server` — Kubernetes server addresss that Argo and other
+  applications are deployed on
+- `spec.source.repoURL` — repository containing application, which Argo CD
+  actively observes in order to update demo application
+- `spec.source.targetRevision` — commit SHA or branch Argo CD currently tracks
 
-4. `tempo/tempo-app.yml` – Grafana Tempo configuration.
+### Other Configuration
 
-Below most important properties: - `server` - kubernetes server addresss that Argo and other applications are deployed on. - `repoURL` - repository containing application which Argo CD actively observes in order to update demo application. - `targetRevision` - commit or branch Argo CD currently tracks.
+1. `prometheus/config` and `prometheus/manifest` - folders containing files with other advanced properties for Prometheus, separated from main file to improve redability
 
-### Other configuration
+2. `scripts/build_publish.sh` - script for building Google Microservices Demo Application images and pushing them to Docker Hub
 
-1. `prometheus/config` and `prometheus/manifest` - folders containing files with other advanced properties for prometheus, separated from main file to improve redability.
+   1. `BUILDPLATFORM` - target platform for build
+   2. `TAG` - tag to give particular build on Docker Hub. It is argument of script
+   3. `REPO_PREFIX` - prefix of repository on Docker Hub that images should be pushed to
 
-2. `scripts/build_publish.sh` - script for building google microservices demo application images and pushing them to dockerhub.
+3. `app/helm-chart/Chart.yaml` - source of truth for Argo CD to deploy Google Microservices Demo Application.
 
-   1. `BUILDPLATFORM` - target platform for build.
-   2. `TAG` - tag to give particular build on dockerhub. It is argument of script.
-   3. `REPO_PREFIX` - prefix of repository on dockerhub that images should be pushed to.
+   - `version` - current version of `helm-chart`
+   - `appVersion` - version of docker images to be used during deployment, should be the same as `TAG` in `scripts/build_publish.sh`
 
-3. `app/helm-chart/Chart.yaml` - source of truth for Argo CD to deploy google microservices demo application.
+4. `app/helm-chart/templates` - configuration specific for each microservice
 
-   - `version` - current version of `helm-chart`.
-   - `appVersion` - version of docker images to be used during deployment, should be the same as `TAG` in `scripts/build_publish.sh`.
-
-4. `app/helm-chart/templates` - configuration specific for each microservice.
-
-5. `app/helm-chart/values` - other configuration.
+5. `app/helm-chart/values` - other configuration
 
 ## Installation
 
@@ -243,9 +279,14 @@ kubectl apply -f tempo/tempo-app.yml
 
 ### Building Demo Application Images
 
-1. Change the `REPO_PREFIX` variable in `scripts/build_publish.sh` to your Docker Hub repository prefix, e.g. `kpiotr6`.
+_The below build process deploys images to Docker Hub, of course, you can also use
+another repository._
 
-2. Change the `BUILDPLATFORM` variable in `scripts/build_publish.sh` to your target platform, e.g. `linux/amd64`.
+1. Change the `REPO_PREFIX` variable in `scripts/build_publish.sh` to your
+   Docker Hub repository prefix, e.g. `kpiotr6`.
+
+2. Change the `BUILDPLATFORM` variable in `scripts/build_publish.sh` to your
+   target platform, e.g. `linux/amd64`.
 
 3. Make sure you are logged in to Docker Hub:
 
@@ -269,7 +310,8 @@ kubectl apply -f tempo/tempo-app.yml
    sed -i 's/appVersion: .*/appVersion: <TAG>/' app/helm-chart/Chart.yaml
    ```
 
-   where `<TAG>` is the tag you used in building step, e.g. `v1.1.0`. You can also do this manually by editing `app/helm-chart/Chart.yaml` file.
+   where `<TAG>` is the tag you used in building step, e.g. `v1.1.0`. You can
+   also do this manually by editing `app/helm-chart/Chart.yaml` file.
 
 2. Commit the changes to the repository:
 
@@ -285,45 +327,46 @@ kubectl apply -f tempo/tempo-app.yml
    argocd app sync demo-app
    ```
 
-   or you can do it manually via Argo CD dashboard by clicking on the "Sync" button for the `demo-app` application.
+   or you can do it manually via Argo CD dashboard by clicking on the "Sync"
+   button for the "demo-app" application.
 
-4. After a few minutes, the new version of the application should be fully deployed and visible in the Argo CD dashboard.
+4. After a few minutes, the new version of the application should be fully
+   deployed and visible in the Argo CD dashboard.
 
 ## Reproduction
 
-To test Argocd setup, we perform folowing steps:
+To test Argo CD setup, we perform folowing steps:
 
-1. Set proper variables, that were mentioned in [Environment Configuration](#environment-configuration). In this example we will use our private repositories on `kpiotr6` namespace.
+1. Set proper variables, that were mentioned in [Environment Configuration](#environment-configuration). In this example we will use our private repositories on "kpiotr6" namespace.
 
 2. Build and publish Demo application images using the script `scripts/build_publish.sh <TAG>`. You can omit this step if you have access to prebuilt images on Docker Hub.
 
 3. Make sure that you have the `app/helm-chart/Chart.yaml` file updated with the correct `appVersion` that matches the image tag you want to deploy. This file has to be commited present on repository that is observed by Argo CD. In this example we will use "v1.1.0" version.
 
-4. Install Argo CD, Grafana, Prometheus, Tempo and Demo application as described in the [Installation](#installation) section, it is necessary to run `minikube tunnel` to make sure that Demo application deploys properly. After logging in to Argo CD dashboard, you should see the `demo-app`, `grafana`, `prometheus` and `tempo` applications in the list of applications like in the image below. ![Argo CD dashboard](./images/argo-dashboard.png).
+4. Install Argo CD, Grafana, Prometheus, Tempo and Demo application as described in the [Installation](#installation) section, it is necessary to run `minikube tunnel` to make sure that Demo application deploys properly. After logging in to Argo CD dashboard, you should see the `demo-app`, `grafana`, `prometheus` and `tempo` applications in the list of applications like in the image below. ![Argo CD dashboard](./images/argo-dashboard.png)
 
 5. After all applications are deployed, you can access the Demo application UI by port forwarding the frontend service and opening page `http://localhost:4000`.
    It should look like this
    ![Demo application UI](./images/butik.png)
    You can play a bit with the application, add some products to the cart, place orders, etc. If you are using version "v1.1.0" you should not see any delays in the application, everything should work smoothly. Additionaly in the top left corner you will see image of Enstein.
 
-6. To test the observability features, you can access Grafana dashboard by port forwarding the Grafana service and opening page `http://localhost:3000`. After selecting `Dashboards` from the left menu you should see the list of available dashboards: `ArgoCD` and `Online Boutique Frontend Metrics Enhanced`. On `ArgoCD` dashboard you can see various metrics related to Argo CD itself, such as application sync status, health status, and more. On `Online Boutique Frontend Metrics Enhanced` dashboard you can see metrics related to the Demo application frontend, such as request duration, error rate, and more.
-   ![Argo grafana](./images/argo-grafana.png)
-   ![Demo grafana](./images/demo-grafana.png)
+6. To test the observability features, you can access Grafana dashboard by port forwarding the Grafana service and opening page `http://localhost:3000`. After selecting `Dashboards` from the left menu you should see the list of available dashboards: "ArgoCD" and "Online Boutique Frontend Metrics Enhanced". On "ArgoCD" dashboard you can see various metrics related to Argo CD itself, such as application sync status, health status, and more. On `Online Boutique Frontend Metrics Enhanced` dashboard you can see metrics related to the Demo application frontend, such as request duration, error rate, and more.
+![Argo grafana](./images/argo-grafana.png)
+![Demo grafana](./images/demo-grafana.png)
 
 7. To test the tracing features, you can access Grafana Tempo traces by selecting `Drilldown` -> `Traces` from the left menu. by port forwarding the Tempo service and opening page `http://localhost:3200`. Then in traces tab you can select and analyze particular traces of the Demo application. You can see the request flow, duration, and other details. This will help you understand how the application performs and where the bottlenecks are.
-   ![Tempo traces](./images/traces.png)
+![Tempo traces](./images/traces.png)
 
 8. To observe Argo CD performing application update, change the `appVersion` in `app/helm-chart/Chart.yaml` file to a different version. Then commit the changes and push them to repository. Argo CD should automatically detect the changes and update the application. You can also do this manually as described in [Changing Demo Application Images](#changing-demo-application-images) section. After the update is applied, you can see the new version of the application in the Argo CD dashboard and in the Demo application UI. In this example we will use "v1.1.1" version that has artificial delay implemented on frontend. After successful sync we can see that commit Argo is basing on has changed so it redeploys application with new image version.
-   Below we can see first and second commits that application was based on.
-
+Below we can see first and second commits that application was based on.
 ![Synced1](./images/synced1.png)
 ![Synced2](./images/synced2.png)
 
 9. Go back to Grafana dashboard and select `Online Boutique Frontend Metrics Enhanced` dashboard. You should see that the metrics have changed, e.g. the request duration has increased due to the artificial delay implemented in the frontend of the Demo application.
-   ![Grafana metrics2](./images/demo-grafana-2.png)
+![Grafana metrics2](./images/demo-grafana-2.png)
 
 10. You can also check the traces in Grafana Tempo to see how the request flow has changed after the update. The traces should show the increased duration of the requests due to the artificial delay. It's over 10 seconds now.
-    ![Tempo traces2](./images/traces2.png)
+![Tempo traces2](./images/traces2.png)
 
 ## Demo Deployment
 
@@ -336,8 +379,8 @@ During development of this project we used various widely available LLM. We util
 1. Solving problems and errors that occured during develpment - [GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)[^17]
 2. Inline code completion when developing configuration - [GitHub Copilot](https://github.com/features/copilot)[^18]
 3. Generating some parts of documentation - GPT-4o (via ChatGPT)
-4. Asking for the meaning of life, universe and how to deal with SUU induced depression - GPT-4o (via ChatGPT)
-5. Help generating Grafana dashboards and app metrics - VS Code copilot with Claude 3.5
+4. Help generating Grafana dashboards and app metrics - VS Code copilot with Claude 3.5
+5. Asking for the meaning of life, universe and how to deal with SUU induced depression - GPT-4o (via ChatGPT)
 
 ## Summary
 
