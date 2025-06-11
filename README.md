@@ -99,7 +99,7 @@ We plan to test this project locally on Minikube.
 
 Our project contains 2 repositories: forked application from Google and
 the primary repository containing all necessary tools to collect and process
-Open Telemetry data as the application itself.
+OpenTelemetry data as the application itself.
 
 ## Complete Architecture
 
@@ -376,7 +376,7 @@ This project was planned to be deployed only on a local Minikube cluster. Instru
 
 During development of this project we used various widely available LLM. We utilized them in following applications:
 
-1. Solving problems and errors that occured during develpment - [GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)[^17]
+1. Solving problems and errors th at occured during develpment - [GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)[^17]
 2. Inline code completion when developing configuration - [VS Code GitHub Copilot](https://code.visualstudio.com/docs/copilot/overview/)[^18]
 3. Generating some parts of documentation - GPT-4o (via ChatGPT)
 4. Help generating Grafana dashboards and app metrics - VS Code GitHub Copilot with Claude 3.5
