@@ -277,6 +277,8 @@ kubectl apply -f tempo/tempo-app.yml
    kubectl port-forward svc/frontend -n demo-app 4000:80
    ```
 
+## Reproduction
+
 ### Building Demo Application Images
 
 _The below build process deploys images to Docker Hub, of course, you can also use
@@ -333,7 +335,7 @@ another repository._
 4. After a few minutes, the new version of the application should be fully
    deployed and visible in the Argo CD dashboard.
 
-## Reproduction
+### Reproduction Scenario
 
 To test Argo CD setup, we perform folowing steps:
 
