@@ -352,7 +352,7 @@ To test Argo CD setup, we perform folowing steps:
    ![Demo application UI](./images/butik.png)
    You can play a bit with the application, add some products to the cart, place orders, etc. If you are using version "v1.1.0" you should not see any delays in the application, everything should work smoothly. Additionaly in the top left corner you will see image of Enstein.
 
-6. To test the observability features, you can access Grafana dashboard by port forwarding the Grafana service and opening page `http://localhost:3000`. After selecting `Dashboards` from the left menu you should see the list of available dashboards: "ArgoCD" and "Online Boutique Frontend Metrics Enhanced". On "ArgoCD" dashboard you can see various metrics related to Argo CD itself, such as application sync status, health status, and more. On `Online Boutique Frontend Metrics Enhanced` dashboard you can see metrics related to the Demo application frontend, such as request duration, error rate, and more.
+6. To test the observability features, you can access Grafana dashboard by port forwarding the Grafana service and opening page `http://localhost:3000`. After selecting `Dashboards` from the left menu you should see the list of available dashboards: "Argo CD" and "Online Boutique Frontend Metrics Enhanced". On "Argo CD" dashboard you can see various metrics related to Argo CD itself, such as application sync status, health status, and more. On `Online Boutique Frontend Metrics Enhanced` dashboard you can see metrics related to the Demo application frontend, such as request duration, error rate, and more.
    ![Argo grafana](./images/argo-grafana.png)
    ![Demo grafana](./images/demo-grafana.png)
 

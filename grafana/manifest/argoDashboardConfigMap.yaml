@@ -4032,8 +4032,8 @@ data:
         ]
       },
       "timezone": "",
-      "title": "ArgoCD",
+      "title": "Argo CD",
       "uid": "qPkgGHg7k",
       "version": 1,
-      "description": "Official ArgoCD Dashboard as of June 2021"
+      "description": "Official Argo CD Dashboard as of June 2021"
     }
