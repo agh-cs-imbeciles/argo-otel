@@ -351,22 +351,22 @@ To test Argo CD setup, we perform folowing steps:
    You can play a bit with the application, add some products to the cart, place orders, etc. If you are using version "v1.1.0" you should not see any delays in the application, everything should work smoothly. Additionaly in the top left corner you will see image of Enstein.
 
 6. To test the observability features, you can access Grafana dashboard by port forwarding the Grafana service and opening page `http://localhost:3000`. After selecting `Dashboards` from the left menu you should see the list of available dashboards: "ArgoCD" and "Online Boutique Frontend Metrics Enhanced". On "ArgoCD" dashboard you can see various metrics related to Argo CD itself, such as application sync status, health status, and more. On `Online Boutique Frontend Metrics Enhanced` dashboard you can see metrics related to the Demo application frontend, such as request duration, error rate, and more.
-![Argo grafana](./images/argo-grafana.png)
-![Demo grafana](./images/demo-grafana.png)
+   ![Argo grafana](./images/argo-grafana.png)
+   ![Demo grafana](./images/demo-grafana.png)
 
 7. To test the tracing features, you can access Grafana Tempo traces by selecting `Drilldown` -> `Traces` from the left menu. by port forwarding the Tempo service and opening page `http://localhost:3200`. Then in traces tab you can select and analyze particular traces of the Demo application. You can see the request flow, duration, and other details. This will help you understand how the application performs and where the bottlenecks are.
-![Tempo traces](./images/traces.png)
+   ![Tempo traces](./images/traces.png)
 
 8. To observe Argo CD performing application update, change the `appVersion` in `app/helm-chart/Chart.yaml` file to a different version. Then commit the changes and push them to repository. Argo CD should automatically detect the changes and update the application. You can also do this manually as described in [Changing Demo Application Images](#changing-demo-application-images) section. After the update is applied, you can see the new version of the application in the Argo CD dashboard and in the Demo application UI. In this example we will use "v1.1.1" version that has artificial delay implemented on frontend. After successful sync we can see that commit Argo is basing on has changed so it redeploys application with new image version.
-Below we can see first and second commits that application was based on.
-![Synced1](./images/synced1.png)
-![Synced2](./images/synced2.png)
+   Below we can see first and second commits that application was based on.
+   ![Synced1](./images/synced1.png)
+   ![Synced2](./images/synced2.png)
 
 9. Go back to Grafana dashboard and select `Online Boutique Frontend Metrics Enhanced` dashboard. You should see that the metrics have changed, e.g. the request duration has increased due to the artificial delay implemented in the frontend of the Demo application.
-![Grafana metrics2](./images/demo-grafana-2.png)
+   ![Grafana metrics2](./images/demo-grafana-2.png)
 
 10. You can also check the traces in Grafana Tempo to see how the request flow has changed after the update. The traces should show the increased duration of the requests due to the artificial delay. It's over 10 seconds now.
-![Tempo traces2](./images/traces2.png)
+    ![Tempo traces2](./images/traces2.png)
 
 ## Demo Deployment
 
@@ -377,9 +377,9 @@ This project was planned to be deployed only on a local Minikube cluster. Instru
 During development of this project we used various widely available LLM. We utilized them in following applications:
 
 1. Solving problems and errors that occured during develpment - [GPT-4o (via ChatGPT)](https://openai.com/index/hello-gpt-4o/)[^17]
-2. Inline code completion when developing configuration - [GitHub Copilot](https://github.com/features/copilot)[^18]
+2. Inline code completion when developing configuration - [VS Code GitHub Copilot](https://code.visualstudio.com/docs/copilot/overview/)[^18]
 3. Generating some parts of documentation - GPT-4o (via ChatGPT)
-4. Help generating Grafana dashboards and app metrics - VS Code copilot with Claude 3.5
+4. Help generating Grafana dashboards and app metrics - VS Code GitHub Copilot with Claude 3.5
 5. Asking for the meaning of life, universe and how to deal with SUU induced depression - GPT-4o (via ChatGPT)
 
 ## Summary
@@ -388,21 +388,25 @@ We managed to deploy Argo CD with demo application, Grafana, Prometheus and Temp
 
 ## References
 
-[^1]: Argo CD
-[^2]: Kubernetes
-[^3]: Git
-[^4]: Helm charts
-[^5]: Jsonnet
-[^6]: Minikube
-[^7]: Grafana
-[^8]: Grafana Tempo
-[^9]: Prometheus
-[^10]: Our Google Microservices Demo
-[^11]: Google Microservices Demo
-[^12]: Argo CD metrics
-[^13]: Argo CD CLI installation
-[^14]: Helm CLI installation
-[^15]: Minikube installation
-[^16]: Docker installation
-[^17]: GPT-4o
-[^18]: GitHub Copilot
+<!-- markdownlint-disable MD034 -->
+
+[^1]: Argo CD: https://argoproj.github.io/cd/
+[^2]: Kubernetes: https://kubernetes.io/
+[^3]: Git: https://git-scm.com/
+[^4]: Helm charts: https://helm.sh/docs/topics/charts/
+[^5]: Jsonnet: https://jsonnet.org/
+[^6]: Minikube: https://minikube.sigs.k8s.io/
+[^7]: Grafana: https://grafana.com/
+[^8]: Grafana Tempo: https://grafana.com/oss/tempo/
+[^9]: Prometheus: https://prometheus.io/
+[^10]: Our Google Microservices Demo: https://github.com/agh-cs-imbeciles/google-microservices-demo/
+[^11]: Google Microservices Demo: https://github.com/GoogleCloudPlatform/microservices-demo
+[^12]: Argo CD metrics: https://argo-cd.readthedocs.io/en/latest/operator-manual/metrics
+[^13]: Argo CD CLI installation: https://argo-cd.readthedocs.io/en/stable/cli_installation/
+[^14]: Helm CLI installation: https://helm.sh/docs/intro/install/
+[^15]: Minikube installation: https://minikube.sigs.k8s.io/docs/start/
+[^16]: Docker installation: https://docs.docker.com/engine/install/
+[^17]: GPT-4o: https://openai.com/index/hello-gpt-4o/
+[^18]: GitHub Copilot: https://code.visualstudio.com/docs/copilot/overview/
+
+<!-- markdownlint-enable MD034 -->
