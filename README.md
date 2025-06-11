@@ -105,7 +105,7 @@ OpenTelemetry data as the application itself.
 
 ![Architecture](./images/architecture.png)
 
-## Application Architecure
+## Application Architecture
 
 Architecture of Google Microservices Example Application —
 _**Online Boutique**_.
