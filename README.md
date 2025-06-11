@@ -118,9 +118,9 @@ _**Online Boutique**_.
 ├── app
 ├── argo
 │   └── argo-cd
-│       └── argo-app.yml
+│       └── argo-app.yaml
 ├── grafana
-│   ├── grafana-app.yml
+│   ├── grafana-app.yaml
 │   └── manifest
 │       ├── appDashboardConfigMap.yaml
 │       └── argoDashboardConfigMap.yaml
@@ -133,7 +133,7 @@ _**Online Boutique**_.
 ├── scripts
 │   └── build_publish.sh
 └── tempo
-    └── tempo-app.yml
+    └── tempo-app.yaml
 ```
 
 ## Environment Configuration
@@ -154,10 +154,10 @@ This project consists of many smaller configurable applications, deployed with
 Argo CD. Instructions for Argo CD on how to deploy them are stored in respective
 folders and files:
 
-1. `argo/argo-cd/argo-app.yml` — Google Microservices Demo Application configuration
-2. `grafana/grafana-app.yml` — Grafana configuration
+1. `argo/argo-cd/argo-app.yaml` — Google Microservices Demo Application configuration
+2. `grafana/grafana-app.yaml` — Grafana configuration
 3. `prometheus/argo-prometheus.yaml` — Prometheus configuration
-4. `tempo/tempo-app.yml` — Grafana Tempo configuration
+4. `tempo/tempo-app.yaml` — Grafana Tempo configuration
 
 Below are listed most important properties of Argo CD application configuration:
 
@@ -231,7 +231,7 @@ Below are listed most important properties of Argo CD application configuration:
 1. Install Grafana application
 
    ```bash
-   kubectl apply -f grafana/grafana-app.yml
+   kubectl apply -f grafana/grafana-app.yaml
    ```
 
 2. Port forward Grafana dashboard
@@ -243,7 +243,7 @@ Below are listed most important properties of Argo CD application configuration:
 ### Grafana Tempo Setup
 
 ```bash
-kubectl apply -f tempo/tempo-app.yml
+kubectl apply -f tempo/tempo-app.yaml
 ```
 
 ### Prometheus Setup
@@ -265,7 +265,7 @@ kubectl apply -f tempo/tempo-app.yml
 1. Run application
 
    ```bash
-   kubectl apply -f argo/argo-cd/argo-app.yml
+   kubectl apply -f argo/argo-cd/argo-app.yaml
    ```
 
 2. _(Optional)_ If you are using `minikube` you need to enable `minikube tunnel`
